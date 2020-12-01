@@ -28,22 +28,18 @@ public class FourIRow {
 
     public void setIColumn(int col, String currentMarker) throws Exception {
         button_row = 5;
-        if(col < 0 || col > 7){
-            throw new Exception("can not set here");
-        }
-        for (int i=5; i>=0; i--) {
-            if (board[i][col] == "") {
-                board[i][col] = currentMarker;
-                return;
-            }
-        }
-       /* if(board[button_row][col] == "" ){
-            board[button_row][col] = currentMarker;
-            button_row--;
-        }else if(board[button_row--][col] == "" ){
-            board[button_row--][col] = currentMarker;
-            button_row--;
-        }*/
+       do {
+           if(col < 0 || col > 7){
+               throw new Exception("Column must be between 1 and 7");
+           }
+           for (int i=5; i>=0; i--) {
+               if (board[i][col] == "") {
+                   board[i][col] = currentMarker;
+                   return;
+               }
+           }
+           System.out.println("Column " + col + " is full");
+        }while (true);
 
 
     }

@@ -1,5 +1,7 @@
 package se.ecutb.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PlayGame extends Game{
@@ -10,6 +12,8 @@ public class PlayGame extends Game{
     String[][] myBoard ;
     private int count= 1;
     Scanner read = new Scanner(System.in);
+    List<FourIRow> list = new ArrayList<>();
+    //StringBuilder stringBuilder;
 
     public PlayGame(int play_number)  {
         this.play_number = play_number;
@@ -20,90 +24,52 @@ public class PlayGame extends Game{
 
      public void start(){
          do{
-             String player2, player1 = fourIRow.nextPlayer();
-             System.out.println("Player1 : " + player1);
-             printColNo();
-             int colP1 = read.nextInt();
-
-             setInCol(player1, colP1);
-             //winner = verticalWinner();
+             setPlayer();
              controlWinner();
 
-             player2 = fourIRow.nextPlayer();
-             System.out.println("Player2 : " + player2);
-             printColNo();
-             int colP2 = read.nextInt();
-
-             setInCol(player2,colP2);
+             setPlayer();
 
              fourIRow.boardGame();
-
              controlWinner();
-             System.out.println("Winner : " + winner);
-             System.out.println("count : " + count);
+
+             System.out.println("\ncount : " + count);
 
          }while (!winner || play_number<= count);
      }
 
+    public void setPlayer() {
+        String player = fourIRow.nextPlayer();
+        System.out.println("Player : " + player);
+        printColNo();
+        int colP = read.nextInt();
+        setInCol(player,colP);
+    }
+
     private void controlWinner() {
         winner = getWinner();
-        if(winner){
+
+        if(gameOver() && count < play_number){
+            fourIRow.newBoardGame();
+            count++;
+        }
+        if(winner && count < play_number){
             System.out.println(winnerGame() + " winner");
             count++;
+            list.add(fourIRow);
             fourIRow.newBoardGame();
-        }
-        if(gameOver()){
-            fourIRow.newBoardGame();
-            count++;
+        }if(winner && count >= play_number){
+            System.out.println(winnerGame() + " winner");
+            start();
+            //fourIRow.newBoardGame();
         }
     }
 
     public String winnerGame(){
-        winner= getWinner();
         return marker;
     }
 
     private boolean getWinner() {
-        String play;
-        if(verticalWinner())
-            return true;
-
-        if(horizontalWinner())
-            return true;
-
-
-        /*for (int i = 5; i >=0; i--) {
-                if((fourIRow.board[i][0].equals("X") && fourIRow.board[i][1].equals("X")&& fourIRow.board[i][2].equals("X") && fourIRow.board[i][3].equals("X")) ||
-                        (fourIRow.board[i][0].equals("O") && fourIRow.board[i][1].equals("O")&& fourIRow.board[i][2].equals("O") && fourIRow.board[i][3].equals("O"))){
-                    marker = fourIRow.board[i][0];
-                    return true;
-            }else if((fourIRow.board[i][1].equals("X") && fourIRow.board[i][2].equals("X")&& fourIRow.board[i][3].equals("X") && fourIRow.board[i][4].equals("X")) ||
-            (fourIRow.board[i][1].equals("O") && fourIRow.board[i][2].equals("O")&& fourIRow.board[i][3].equals("O") && fourIRow.board[i][4].equals("O"))){
-                marker = fourIRow.board[i][1];
-                return true;
-            }else if((fourIRow.board[i][2].equals("X") && fourIRow.board[i][3].equals("X")&& fourIRow.board[i][4].equals("X") && fourIRow.board[i][5].equals("X")) ||
-            (fourIRow.board[i][2].equals("O") && fourIRow.board[i][3].equals("O")&& fourIRow.board[i][4].equals("O") && fourIRow.board[i][5].equals("O"))){
-                marker = fourIRow.board[i][2];
-                return true;
-            }else if((fourIRow.board[i][3].equals("X") && fourIRow.board[i][4].equals("X")&& fourIRow.board[i][5].equals("X") && fourIRow.board[i][6].equals("X")) ||
-            (fourIRow.board[i][3].equals("O") && fourIRow.board[i][4].equals("O")&& fourIRow.board[i][5].equals("O") && fourIRow.board[i][6].equals("O"))){
-                marker = fourIRow.board[i][2];
-                return true;
-            }else if((fourIRow.board[0][i].equals("X") && fourIRow.board[1][i].equals("X")&& fourIRow.board[2][i].equals("X") && fourIRow.board[3][i].equals("X")) ||
-            (fourIRow.board[0][i].equals("O") && fourIRow.board[1][i].equals("O")&& fourIRow.board[2][i].equals("O") && fourIRow.board[3][i].equals("O"))){
-                marker = fourIRow.board[0][i];
-                return true;
-            }else if((fourIRow.board[1][i].equals("X") && fourIRow.board[2][i].equals("X")&& fourIRow.board[3][i].equals("X") && fourIRow.board[4][i].equals("X")) ||
-            (fourIRow.board[1][i].equals("O") && fourIRow.board[2][i].equals("O")&& fourIRow.board[3][i].equals("O") && fourIRow.board[4][i].equals("O"))){
-                marker = fourIRow.board[1][i];
-                return true;
-            }else if((fourIRow.board[2][i].equals("X") && fourIRow.board[3][i].equals("X")&& fourIRow.board[4][i].equals("X") && fourIRow.board[5][i].equals("X")) ||
-            (fourIRow.board[2][i].equals("O") && fourIRow.board[3][i].equals("O")&& fourIRow.board[4][i].equals("O") && fourIRow.board[5][i].equals("O"))){
-                marker = fourIRow.board[i][0];
-                return true;
-            }
-        }*/
-        return false;
+        return diagonalWinner()|| verticalWinner() || horizontalWinner();
     }
 
     public boolean verticalWinner(){
@@ -125,42 +91,74 @@ public class PlayGame extends Game{
         }
         return false;
     }
-    public void diagonalWinner(){
-
+    public boolean diagonalWinner(){
+        return getStringDiag() || getStringDiag1();
     }
 
     public boolean getStringVert(int col){
-        StringBuilder st = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 6; i++) {
-            st.append(myBoard[i][col]);
+            stringBuilder.append(myBoard[i][col]);
         }
-        if (compare(st)) return true;
-        return false;
+
+        return compare(stringBuilder);
     }
     public boolean getStringHoriz(int row){
-        StringBuilder st = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 7; i++) {
-            st.append(myBoard[row][i]);
+            stringBuilder.append(myBoard[row][i]);
         }
-        if (compare(st)) return true;
-        return false;
+        return compare(stringBuilder);
+    }
+    public boolean getStringDiag1(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0,j=0 ; i < 6 ; i++) {
+            stringBuilder.append(myBoard[i++][j++]);
+        }
+        return compare(stringBuilder);
+    }
+    public boolean getStringDiag(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 5,j=0 ; i >=0 ; i--) {
+            stringBuilder.append(myBoard[i--][j++]);
+        }
+        return compare(stringBuilder);
     }
 
-    private boolean compare(StringBuilder st) {
-        System.out.print( st.toString());
-        if (st.toString().equalsIgnoreCase("XXXX")) {
-            //marker = "X";
+    public boolean compare(StringBuilder st) {
+        //System.out.print( st.toString());
+        if ((st.toString().equals("XXXX"))
+               /* ||
+                (st.toString().equalsIgnoreCase("OXXXX")) ||
+                        (st.toString().equalsIgnoreCase("XXXXO")) ||
+                                (st.toString().equalsIgnoreCase("OOXXXX")) ||
+                                        (st.toString().equalsIgnoreCase("XXXXOO")) ||
+                                                (st.toString().equalsIgnoreCase("OOOXXXX")) ||
+                                                        (st.toString().equalsIgnoreCase("XXXXOOO")) ||
+                (st.toString().equalsIgnoreCase("OOXXXXO")) ||
+                (st.toString().equalsIgnoreCase("OXXXXOO"))) */
+        ){
+            marker = "X";
             return true;
-        } else if (st.toString().equalsIgnoreCase("OOOO")) {
+        } else if ((st.toString().equals("OOOO"))
+              /*  ||
+                (st.toString().equalsIgnoreCase("XOOOO")) ||
+                        (st.toString().equalsIgnoreCase("OOOOX")) ||
+                                (st.toString().equalsIgnoreCase("XXOOOO")) ||
+                                        (st.toString().equalsIgnoreCase("OOOOXX")) ||
+                                                (st.toString().equalsIgnoreCase("XXXOOOO")) ||
+                                                        (st.toString().equalsIgnoreCase("OOOOXXX")) ||
+        (st.toString().equalsIgnoreCase("XOOOOXX")) ||
+                (st.toString().equalsIgnoreCase("XXOOOOX"))*/
+        ) {
             //System.out.println("O Wins");
-            //marker = "O";
+            marker = "O";
             return true;
         }
         return false;
     }
 
     public boolean gameOver(){
-
          for (int i = 5; i >= 0; i--) {
              for (int j = 6; j >= 0; j--) {
                  if(myBoard[i][j].equals("")){
@@ -185,5 +183,18 @@ public class PlayGame extends Game{
         }
     }
     //System.out.println("winner : " + fourIRow.winnerGame());
+       /*
+        @Contract(mutates = "param3")
+public void getChars(int srcBegin,
+                     int srcEnd,
+                     @NotNull char[] dst,
+                     int dstBegin)
+                      //String string = st.toString().getChars(0,3,st.toString().toCharArray(),0);
+
+        char[] chars = new char[4];
+        for (int i = 0; i < 4; i++) {
+            chars[i] = st.toString().charAt(i);
+        }
+         */
 
 }

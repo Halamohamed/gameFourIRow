@@ -18,7 +18,7 @@ public class FourIRow {
                 {"","","","","","",""},
                 {"","","","","","",""},
             {"","","","","","",""}};
-        //button_row = 5;
+
     }
 
     public String nextPlayer(){
@@ -28,18 +28,19 @@ public class FourIRow {
 
     public void setIColumn(int col, String currentMarker) throws Exception {
         button_row = 5;
-       do {
+
            if(col < 0 || col > 7){
                throw new Exception("Column must be between 1 and 7");
            }
            for (int i=5; i>=0; i--) {
-               if (board[i][col] == "") {
+               if (board[i][col].equals("")) {
                    board[i][col] = currentMarker;
                    return;
                }
            }
-           System.out.println("Column " + col + " is full");
-        }while (true);
+           if(board[0][col] != ""){
+               System.out.println("Column " + col + " is full");
+           }
 
 
     }
@@ -50,7 +51,6 @@ public class FourIRow {
         for (int i =0; i < 6; i++) {
             for (int j = 0; j < 7 ; j++) {
                 System.out.print(board[i][j] + " | ");
-                ;
             }
             System.out.println();
         }
@@ -58,7 +58,7 @@ public class FourIRow {
 
 
     }
-    public void newBoardGame(){
+    public String[][] newBoardGame(){
 
         System.out.println("---------------------------");
         for (int i =0; i < 6; i++) {
@@ -69,7 +69,7 @@ public class FourIRow {
             System.out.println();
         }
         System.out.println("---------------------------");
-
+        return board;
 
     }
 

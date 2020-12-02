@@ -6,14 +6,13 @@ import java.util.Scanner;
 
 public class PlayGame extends Game{
     private int play_number;
-    private FourIRow fourIRow;
+    private final FourIRow fourIRow;
     private boolean winner= false;
     String marker;
     String[][] myBoard ;
-    private int count= 1;
+    private int count;
     Scanner read = new Scanner(System.in);
-    List<FourIRow> list = new ArrayList<>();
-    //StringBuilder stringBuilder;
+    public List<FourIRow> list = new ArrayList<>();
 
     public PlayGame()  {
         this.play_number = 1;
@@ -25,7 +24,9 @@ public class PlayGame extends Game{
      public void start(){
          System.out.println("enter how many you want to play: 1, 2, 3, 4, 5");
          play_number = read.nextInt();
-         do{
+         myBoard = fourIRow.newBoardGame();
+         while (!winner || count <= play_number){
+             count = 1;
              //play the player1
              setPlayer();
              //control if there is winner
@@ -40,7 +41,7 @@ public class PlayGame extends Game{
 
              System.out.println("\ncount : " + count);
 
-         }while (!winner || play_number<= count);
+         }
      }
 
     public void setPlayer() {
@@ -54,15 +55,20 @@ public class PlayGame extends Game{
     private void controlWinner() {
         winner = getWinner();
 
-        if(gameOver() && count < play_number){
-            fourIRow.newBoardGame();
+        if( winner && count < play_number){
+            myBoard = fourIRow.newBoardGame();
+        }
+        if(gameOver() ){
+            winner = false;
+            start();
             count++;
         }
-        if(winner && count < play_number){
+        if(winner){
             System.out.println(winnerGame() + " winner");
             count++;
+            winner = false;
             list.add(fourIRow);
-            fourIRow.newBoardGame();
+            start();
         }
     }
 
@@ -79,6 +85,7 @@ public class PlayGame extends Game{
     public boolean verticalWinner(){
         for (int i = 0; i < 7; i++) {
             if(getStringVert(i)){
+                winner = true;
                 return true;
             }
         }
@@ -88,6 +95,8 @@ public class PlayGame extends Game{
     public boolean horizontalWinner(){
         for (int i = 0; i < 6; i++) {
             if(getStringHoriz(i)){
+                System.out.println("horiz " + winner);
+                winner = true;
                 return true;
             }
         }
@@ -137,6 +146,7 @@ public class PlayGame extends Game{
     }
 
     public boolean compare(StringBuilder st) {
+
         if ((st.toString().equalsIgnoreCase("XXXX"))){
             marker = "X";
             return true;

@@ -6,7 +6,16 @@ import java.util.List;
 public class PlayGameStub extends PlayGame {
     List<FourIRow> game;
     public PlayGameStub() {
-        //super(play_number);
+
         game = new ArrayList<FourIRow>();
+    }
+
+
+    public boolean verticalWinner() {
+        game.add(new FourIRow());
+        return false;
+    }
+    public boolean gameOver(){
+        return false;
     }
 }

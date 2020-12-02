@@ -23,6 +23,7 @@ public class GameApplication {
         game.start();
 
 
+        game.list.forEach(g -> System.out.println(g.toString()));
 
     }
 

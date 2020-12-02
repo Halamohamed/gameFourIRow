@@ -15,21 +15,27 @@ public class PlayGame extends Game{
     List<FourIRow> list = new ArrayList<>();
     //StringBuilder stringBuilder;
 
-    public PlayGame(int play_number)  {
-        this.play_number = play_number;
+    public PlayGame()  {
+        this.play_number = 1;
         fourIRow = new FourIRow();
         myBoard = fourIRow.board;
 
     }
 
      public void start(){
+         System.out.println("enter how many you want to play: 1, 2, 3, 4, 5");
+         play_number = read.nextInt();
          do{
+             //play the player1
              setPlayer();
+             //control if there is winner
              controlWinner();
 
+             //play the player2
              setPlayer();
-
+             //printout board
              fourIRow.boardGame();
+             //control if there is winner
              controlWinner();
 
              System.out.println("\ncount : " + count);
@@ -57,10 +63,6 @@ public class PlayGame extends Game{
             count++;
             list.add(fourIRow);
             fourIRow.newBoardGame();
-        }if(winner && count >= play_number){
-            System.out.println(winnerGame() + " winner");
-            start();
-            //fourIRow.newBoardGame();
         }
     }
 
@@ -69,13 +71,14 @@ public class PlayGame extends Game{
     }
 
     private boolean getWinner() {
-        return diagonalWinner()|| verticalWinner() || horizontalWinner();
+        return diagonalWinner()||
+                verticalWinner()||
+                horizontalWinner();
     }
 
     public boolean verticalWinner(){
         for (int i = 0; i < 7; i++) {
             if(getStringVert(i)){
-                winner = true;
                 return true;
             }
         }
@@ -85,14 +88,13 @@ public class PlayGame extends Game{
     public boolean horizontalWinner(){
         for (int i = 0; i < 6; i++) {
             if(getStringHoriz(i)){
-                winner = true;
                 return true;
             }
         }
         return false;
     }
     public boolean diagonalWinner(){
-        return getStringDiag() || getStringDiag1();
+        return getStringDiag() || getStringDiag1() || getStringDiag2();
     }
 
     public boolean getStringVert(int col){
@@ -100,58 +102,45 @@ public class PlayGame extends Game{
         for (int i = 0; i < 6; i++) {
             stringBuilder.append(myBoard[i][col]);
         }
-
         return compare(stringBuilder);
     }
+
     public boolean getStringHoriz(int row){
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 7; i++) {
-            stringBuilder.append(myBoard[row][i]);
+        for (int col = 0; col < 7; col++) {
+            stringBuilder.append(myBoard[row][col]);
         }
         return compare(stringBuilder);
     }
+
     public boolean getStringDiag1(){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0,j=0 ; i < 6 ; i++) {
-            stringBuilder.append(myBoard[i++][j++]);
+            stringBuilder.append(myBoard[i][j++]);
         }
         return compare(stringBuilder);
     }
+    public boolean getStringDiag2(){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0,j=6 ; i < 6 ; i++) {
+            stringBuilder.append(myBoard[i][j--]);
+        }
+        return compare(stringBuilder);
+    }
+
     public boolean getStringDiag(){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 5,j=0 ; i >=0 ; i--) {
-            stringBuilder.append(myBoard[i--][j++]);
+            stringBuilder.append(myBoard[i][j++]);
         }
         return compare(stringBuilder);
     }
 
     public boolean compare(StringBuilder st) {
-        //System.out.print( st.toString());
-        if ((st.toString().equals("XXXX"))
-               /* ||
-                (st.toString().equalsIgnoreCase("OXXXX")) ||
-                        (st.toString().equalsIgnoreCase("XXXXO")) ||
-                                (st.toString().equalsIgnoreCase("OOXXXX")) ||
-                                        (st.toString().equalsIgnoreCase("XXXXOO")) ||
-                                                (st.toString().equalsIgnoreCase("OOOXXXX")) ||
-                                                        (st.toString().equalsIgnoreCase("XXXXOOO")) ||
-                (st.toString().equalsIgnoreCase("OOXXXXO")) ||
-                (st.toString().equalsIgnoreCase("OXXXXOO"))) */
-        ){
+        if ((st.toString().equalsIgnoreCase("XXXX"))){
             marker = "X";
             return true;
-        } else if ((st.toString().equals("OOOO"))
-              /*  ||
-                (st.toString().equalsIgnoreCase("XOOOO")) ||
-                        (st.toString().equalsIgnoreCase("OOOOX")) ||
-                                (st.toString().equalsIgnoreCase("XXOOOO")) ||
-                                        (st.toString().equalsIgnoreCase("OOOOXX")) ||
-                                                (st.toString().equalsIgnoreCase("XXXOOOO")) ||
-                                                        (st.toString().equalsIgnoreCase("OOOOXXX")) ||
-        (st.toString().equalsIgnoreCase("XOOOOXX")) ||
-                (st.toString().equalsIgnoreCase("XXOOOOX"))*/
-        ) {
-            //System.out.println("O Wins");
+        } else if ((st.toString().equalsIgnoreCase("OOOO"))) {
             marker = "O";
             return true;
         }
@@ -182,7 +171,9 @@ public class PlayGame extends Game{
             e.printStackTrace();
         }
     }
-    //System.out.println("winner : " + fourIRow.winnerGame());
+
+}
+//System.out.println("winner : " + fourIRow.winnerGame());
        /*
         @Contract(mutates = "param3")
 public void getChars(int srcBegin,
@@ -196,5 +187,12 @@ public void getChars(int srcBegin,
             chars[i] = st.toString().charAt(i);
         }
          */
-
-}
+     /* ||
+                (st.toString().equalsIgnoreCase("OXXXX")) ||
+                        (st.toString().equalsIgnoreCase("XXXXO")) ||
+                                (st.toString().equalsIgnoreCase("OOXXXX")) ||
+                                        (st.toString().equalsIgnoreCase("XXXXOO")) ||
+                                                (st.toString().equalsIgnoreCase("OOOXXXX")) ||
+                                                        (st.toString().equalsIgnoreCase("XXXXOOO")) ||
+                (st.toString().equalsIgnoreCase("OOXXXXO")) ||
+                (st.toString().equalsIgnoreCase("OXXXXOO"))) */

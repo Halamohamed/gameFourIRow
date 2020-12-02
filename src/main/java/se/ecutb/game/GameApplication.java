@@ -13,10 +13,11 @@ public class GameApplication {
         SpringApplication.run(GameApplication.class, args);
         Scanner read = new Scanner(System.in);
 
-        int play ;
-        System.out.println("enter how many you want to play: 1, 2, 3, 4, 5");
-        play = read.nextInt();
-        PlayGame game = new PlayGame(play);
+
+        /*System.out.println("enter how many you want to play: 1, 2, 3, 4, 5");
+        play = read.nextInt();*/
+        System.out.println("Välcommen till spelet Fyra I Rad ");
+        PlayGame game = new PlayGame();
 
 
         game.start();

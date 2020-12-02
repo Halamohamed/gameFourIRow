@@ -10,7 +10,7 @@ public class PlayGameTest {
     PlayGame playGame;
     @BeforeEach
     void setUp() {
-        playGame = new PlayGame(2);
+        playGame = new PlayGame();
         cut = new FourIRow();
         cut.board = new String[][]{ {"","","","","","",""},
                 {"","","","","","",""},
@@ -58,23 +58,21 @@ public class PlayGameTest {
         cut.setIColumn(1,"X");
         cut.setIColumn(2,"X");
         cut.setIColumn(3,"X");
-        assertEquals( "X",cut.board[5][0]);
-        assertEquals( "X",cut.board[4][1]);
-        assertEquals( "X",cut.board[3][2]);
-        assertEquals( "X",cut.board[2][3]);
+        playGame.myBoard = cut.board;
+        assertEquals( "X",playGame.myBoard[5][0]);
+        assertEquals( "X",playGame.myBoard[4][1]);
+        assertEquals( "X",playGame.myBoard[3][2]);
+        assertEquals( "X",playGame.myBoard[2][3]);
     }
     @Test
     void test_compare() throws Exception {
-        cut.board = new String[][]{ {"","","","","","",""},
-                {"","","","","","",""},
-                {"","","","","O","O","O"},
-                {"","","","O","O","O","O"},
-                {"X","O","X","X","O","X","O"},
-                {"X","O","X","O","X","O","O"}};
+
         StringBuilder stringO = new StringBuilder("OOOO");
         StringBuilder stringX = new StringBuilder("XXXX");
+        StringBuilder stringF = new StringBuilder("XOXX");
         assertTrue(playGame.compare(stringO));
         assertTrue(playGame.compare(stringX));
+        assertFalse(playGame.compare(stringF));
     }
     @Test
     void test_gameOver() throws Exception {
@@ -85,7 +83,6 @@ public class PlayGameTest {
                 {"O","X","X","O","O","O","O"},
                 {"X","O","X","X","O","X","O"},
                 {"X","O","X","O","X","O","O"}};
-        //playGame.myBoard = cut.board;
 
         assertTrue(playGame.gameOver());
 

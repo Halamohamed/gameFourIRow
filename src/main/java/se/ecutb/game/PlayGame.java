@@ -12,10 +12,10 @@ public class PlayGame extends Game{
     String[][] myBoard ;
     private int count;
     Scanner read = new Scanner(System.in);
-    public List<FourIRow> list = new ArrayList<>();
+    public List<String> list = new ArrayList<>();
 
     public PlayGame()  {
-        this.play_number = 1;
+        this.play_number =1;
         fourIRow = new FourIRow();
         myBoard = fourIRow.board;
 
@@ -67,7 +67,7 @@ public class PlayGame extends Game{
             System.out.println(winnerGame() + " winner");
             count++;
             winner = false;
-            list.add(fourIRow);
+            list.add("winner : " + winnerGame());
             start();
         }
     }
@@ -93,10 +93,10 @@ public class PlayGame extends Game{
 
     }
     public boolean horizontalWinner(){
-        for (int i = 0; i < 6; i++) {
+        for (int i = 5; i >=0; i--) {
             if(getStringHoriz(i)){
-                System.out.println("horiz " + winner);
                 winner = true;
+                System.out.println("horiz " + winner);
                 return true;
             }
         }
@@ -147,10 +147,10 @@ public class PlayGame extends Game{
 
     public boolean compare(StringBuilder st) {
 
-        if ((st.toString().equalsIgnoreCase("XXXX"))){
+        if ((st.toString().toUpperCase().contains("XXXX"))){
             marker = "X";
             return true;
-        } else if ((st.toString().equalsIgnoreCase("OOOO"))) {
+        } else if ((st.toString().toUpperCase().contains("OOOO"))) {
             marker = "O";
             return true;
         }
@@ -174,7 +174,7 @@ public class PlayGame extends Game{
         }
     }
 
-    private void setInCol(String player, int colP) {
+    public void setInCol(String player, int colP) {
         try {
             fourIRow.setIColumn(colP -1, player);
         } catch (Exception e) {
@@ -183,26 +183,3 @@ public class PlayGame extends Game{
     }
 
 }
-//System.out.println("winner : " + fourIRow.winnerGame());
-       /*
-        @Contract(mutates = "param3")
-public void getChars(int srcBegin,
-                     int srcEnd,
-                     @NotNull char[] dst,
-                     int dstBegin)
-                      //String string = st.toString().getChars(0,3,st.toString().toCharArray(),0);
-
-        char[] chars = new char[4];
-        for (int i = 0; i < 4; i++) {
-            chars[i] = st.toString().charAt(i);
-        }
-         */
-     /* ||
-                (st.toString().equalsIgnoreCase("OXXXX")) ||
-                        (st.toString().equalsIgnoreCase("XXXXO")) ||
-                                (st.toString().equalsIgnoreCase("OOXXXX")) ||
-                                        (st.toString().equalsIgnoreCase("XXXXOO")) ||
-                                                (st.toString().equalsIgnoreCase("OOOXXXX")) ||
-                                                        (st.toString().equalsIgnoreCase("XXXXOOO")) ||
-                (st.toString().equalsIgnoreCase("OOXXXXO")) ||
-                (st.toString().equalsIgnoreCase("OXXXXOO"))) */

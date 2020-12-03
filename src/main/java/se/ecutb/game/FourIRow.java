@@ -5,13 +5,10 @@ public class FourIRow {
 
     private String player;
     public String[][] board;
-    private int row;
-    private int column;
     private int button_row;
 
     public FourIRow(){
         player = "X";
-
         board = new String[][]{ {"","","","","","",""},
                 {"","","","","","",""},
                 {"","","","","","",""},

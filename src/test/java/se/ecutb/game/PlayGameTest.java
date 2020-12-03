@@ -18,6 +18,7 @@ public class PlayGameTest {
                 {"","","","","","",""},
                 {"","","","","","",""},
                 {"","","","","","",""}};
+        playGame.myBoard = cut.board;
     }
 
     @Test
@@ -28,10 +29,12 @@ public class PlayGameTest {
         cut.setIColumn(1,"X");
         cut.setIColumn(1,"X");
         cut.setIColumn(1,"X");
-        assertEquals( "X",cut.board[5][1]);
-        assertEquals( "X",cut.board[4][1]);
-        assertEquals( "X",cut.board[3][1]);
-        assertEquals( "X",cut.board[2][1]);
+        assertEquals( "X",playGame.myBoard[5][1]);
+        assertEquals( "X",playGame.myBoard[4][1]);
+        assertEquals( "X", playGame.myBoard[3][1]);
+        assertEquals( "X",playGame.myBoard[2][1]);
+        assertTrue(playGame.verticalWinner());
+        assertEquals("X", playGame.winnerGame());
     }
     @Test
     void test_horizontalWinner() throws Exception {
@@ -40,29 +43,37 @@ public class PlayGameTest {
         cut.setIColumn(1,"O");
         cut.setIColumn(2,"O");
         cut.setIColumn(3,"O");
-        assertEquals( "O",cut.board[5][0]);
-        assertEquals( "O",cut.board[5][1]);
-        assertEquals( "O",cut.board[5][2]);
-        assertEquals( "O",cut.board[5][3]);
+        assertEquals( "O",playGame.myBoard[5][0]);
+        assertEquals( "O",playGame.myBoard[5][1]);
+        assertEquals( "O",playGame.myBoard[5][2]);
+        assertEquals( "O",playGame.myBoard[5][3]);
+        assertTrue(playGame.horizontalWinner());
+        assertEquals("O", playGame.winnerGame());
     }
     @Test
     void test_diagonalWinner() throws Exception {
+        assertFalse(playGame.diagonalWinner());
         cut.board = new String[][]{ {"","","","","","",""},
                 {"","","","","","",""},
                 {"","","","","O","O","O"},
-                {"","","","O","O","O","O"},
-                {"","","O","O","O","O","O"},
-                {"","O","O","O","O","O","O"}};
-        assertFalse(playGame.diagonalWinner());
+                {"","","","O","X","X","O"},
+                {"","","O","O","O","X","X"},
+                {"","O","O","X","O","O","O"}};
+        playGame.myBoard = cut.board;
+        assertTrue(playGame.diagonalWinner());
+        assertEquals("O", playGame.winnerGame());
         cut.setIColumn(0,"X");
         cut.setIColumn(1,"X");
         cut.setIColumn(2,"X");
         cut.setIColumn(3,"X");
-        playGame.myBoard = cut.board;
+
         assertEquals( "X",playGame.myBoard[5][0]);
         assertEquals( "X",playGame.myBoard[4][1]);
         assertEquals( "X",playGame.myBoard[3][2]);
         assertEquals( "X",playGame.myBoard[2][3]);
+        assertTrue(playGame.diagonalWinner());
+        assertEquals("X", playGame.winnerGame());
+
     }
     @Test
     void test_compare() throws Exception {

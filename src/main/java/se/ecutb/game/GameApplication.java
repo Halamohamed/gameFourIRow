@@ -14,16 +14,21 @@ public class GameApplication {
         Scanner read = new Scanner(System.in);
 
 
-        /*System.out.println("enter how many you want to play: 1, 2, 3, 4, 5");
-        play = read.nextInt();*/
+
         System.out.println("Välcommen till spelet Fyra I Rad ");
+
         PlayGame game = new PlayGame();
 
 
         game.start();
 
+        if(game.gameOver()){
+            System.out.println("spelet vinnare ");
+            for (int i = 0; i < game.list.size(); i++) {
+                System.out.println(i + " " + game.list.get(i));
+            }
+        }
 
-        game.list.forEach(g -> System.out.println(g.toString()));
 
     }
 

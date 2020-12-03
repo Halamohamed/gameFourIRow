@@ -1,8 +1,12 @@
 package se.ecutb.game;
 
 
-public class FourIRow {
+import java.io.Serializable;
+import java.util.UUID;
 
+public class FourIRow implements Serializable {
+
+    private UUID fourIRowId;
     private String player;
     public String[][] board;
     private int button_row;

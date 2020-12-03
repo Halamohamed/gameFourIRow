@@ -1,18 +1,16 @@
 package se.ecutb.game;
 
-import java.io.File;
 import java.io.IOException;
-
+import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import static se.ecutb.game.GameIO.save;
 import static se.ecutb.game.SaveFile.FILE;
-import static se.ecutb.game.SaveFile.writeText;
-
-
-public class PlayGame extends Game{
+public class PlayGame extends Game implements Serializable {
     private int play_number;
     public final FourIRow fourIRow;
     public boolean winner= false;
@@ -21,14 +19,12 @@ public class PlayGame extends Game{
     private int count;
     Scanner read = new Scanner(System.in);
     public List<String> list = new ArrayList<>();
-   // public static File file = new File("textFile/games.txt");
 
     public PlayGame()  {
         this.play_number =1;
         fourIRow = new FourIRow();
         myBoard = fourIRow.board;
-        count = 0;
-
+        count = 1;
 
     }
 
@@ -37,19 +33,16 @@ public class PlayGame extends Game{
          play_number = read.nextInt();
          myBoard = fourIRow.newBoardGame();
          while (!winner || count <= play_number){
-             count++;
              //play the player1
              setPlayer();
              //control if there is winner
              controlWinner();
-
              //play the player2
              setPlayer();
              //printout board
              fourIRow.boardGame();
              //control if there is winner
              controlWinner();
-
              System.out.println("\ncount : " + count);
          }
      }
@@ -64,29 +57,29 @@ public class PlayGame extends Game{
 
     public void controlWinner() throws IOException {
         winner = getWinner();
-
         if( winner && count < play_number){
             System.out.println(winnerGame() + " winner");
-            list.add("winner : " + winnerGame() );
+            list.add(Arrays.deepToString(myBoard)+ " " + winnerGame() +" winner game : " + winner);
+            SaveFile.writeText(FILE,list);
+            winner = false;
             myBoard = fourIRow.newBoardGame();
-
             count++;
-        }else
-        if(gameOver() ){
+        }
+        else if(gameOver() ){
+            System.out.println("Game over. No winner. Try again!");
             winner = false;
-            SaveFile.readText(FILE);
-            start();
-        }else
-        if(winner && count >= play_number){
-            System.out.println(winnerGame() + " winner");
-            count=0;
-            winner = false;
-            list.add("winner : " + winnerGame());
+            count++;
             start();
         }
-        SaveFile.writeText(FILE,list);
+        else if(winner && count >= play_number){
+            System.out.println(winnerGame() + " winner");
+            count=1;
+            list.add(Arrays.deepToString(myBoard) + " " + winnerGame() + " winner game : " + winner);
+            SaveFile.writeText(FILE,list);
+            winner = false;
+            start();
+        }
     }
-
 
     private void printColNo() {
         System.out.println("set in a column ");

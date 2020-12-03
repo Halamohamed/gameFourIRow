@@ -1,51 +1,50 @@
 package se.ecutb.game;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SaveFile {
-    //public static final String TEXTID = "text_id";
-    private static List<String> stringList;
+    public static List<String> stringList;
     public static final File FILE = new File("textFile/games.txt");
 
     public SaveFile() {
         stringList = new ArrayList<>();
     }
 
-    public static void writeText(File file, List<String> strings) {
-        try (FileWriter writer = new FileWriter(file)) {
+    public static void writeText(File file, List<String> games) {
+        Date date = new Date();
+        try (FileWriter writer = new FileWriter(file,true)) {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            writer.append("Hello");
-            for (String s : strings) {
-                writer.write(s);
+            for (String s : games) {
+                writer.append( ('\n'));
+                writer.write("h: " + date.getHours()+ " m: " + date.getMinutes() + " sec: " + date.getSeconds()+ " " +s);
                 System.out.println();
             }
-
-
+            writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static String readText(File file) {
-        StringBuilder stringBuilder = new StringBuilder();
-        //Properties properties = new Properties();
-        try (FileReader reader = new FileReader(file)) {
-            int i;
-            while ((i = reader.read()) != -1) {
-                char letter = (char) i;
-                stringBuilder.append(letter);
+    public static void readText(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String i;
+            while ((i = reader.readLine()) != null) {
+                String  letter =  i;
+                  stringList.add(letter);
+                System.out.println(letter);
             }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return stringBuilder.toString();
     }
 
 

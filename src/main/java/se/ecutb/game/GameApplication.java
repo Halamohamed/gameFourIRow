@@ -26,9 +26,6 @@ public class GameApplication {
         System.out.println("Välcommen till spelet Fyra I Rad ");
 
         PlayGame game = new PlayGame();
-
-
-
         game.start();
 
         list.add(game.winnerGame() + " " + game.winner + game);
@@ -37,7 +34,11 @@ public class GameApplication {
             /*for (int i = 0; i < list.size(); i++) {
                 System.out.println(i + " " +readText(file));
             }*/
-        System.out.println(SaveFile.readText(FILE));
+        //SaveFile.readText(FILE).forEach(s -> System.out.println(Arrays.asList(s) ));
+        for (String s: SaveFile.stringList
+             ) {
+            System.out.println(s);
+        }
 
 
 

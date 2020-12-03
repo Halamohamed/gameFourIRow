@@ -3,31 +3,43 @@ package se.ecutb.game;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+
+import static se.ecutb.game.SaveFile.FILE;
+import static se.ecutb.game.SaveFile.readText;
+
 
 @SpringBootApplication
 public class GameApplication {
+   // File file = new File("textFile/games.txt");
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(GameApplication.class, args);
-        Scanner read = new Scanner(System.in);
 
 
+        List<String> list = new ArrayList<>();
 
         System.out.println("Välcommen till spelet Fyra I Rad ");
 
         PlayGame game = new PlayGame();
 
 
+
         game.start();
 
-        if(game.gameOver()){
+        list.add(game.winnerGame() + " " + game.winner + game);
+
             System.out.println("spelet vinnare ");
-            for (int i = 0; i < game.list.size(); i++) {
-                System.out.println(i + " " + game.list.get(i));
-            }
-        }
+            /*for (int i = 0; i < list.size(); i++) {
+                System.out.println(i + " " +readText(file));
+            }*/
+        System.out.println(SaveFile.readText(FILE));
+
+
 
 
     }

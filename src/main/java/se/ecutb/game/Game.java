@@ -1,9 +1,11 @@
 package se.ecutb.game;
 
+import java.io.IOException;
+
 public class Game implements IGame{
 
     @Override
-    public void start() {
+    public void start() throws IOException {
 
     }
 

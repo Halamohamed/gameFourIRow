@@ -7,6 +7,7 @@ public class FourIRow {
     public String[][] board;
     private int button_row;
 
+
     public FourIRow(){
         player = "X";
         board = new String[][]{ {"","","","","","",""},
@@ -38,8 +39,6 @@ public class FourIRow {
            if(board[0][col] != ""){
                System.out.println("Column " + col + " is full");
            }
-
-
     }
 
     public void boardGame(){
@@ -69,4 +68,16 @@ public class FourIRow {
         return board;
 
     }
+   /* public boolean verticalWinner(){
+        for (int i = 0; i < 7; i++) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < 6; j++) {
+                stringBuilder.append(board[i][j]);
+            }if(game.compare(stringBuilder)){
+                game.winner = true;
+                return true;
+            }
+        }
+        return false;
+    }*/
 }

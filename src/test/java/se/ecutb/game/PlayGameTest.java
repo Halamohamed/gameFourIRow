@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayGameTest {
     FourIRow cut;
     PlayGame playGame;
+
     @BeforeEach
     void setUp() {
         playGame = new PlayGame();
@@ -19,6 +20,7 @@ public class PlayGameTest {
                 {"","","","","","",""},
                 {"","","","","","",""}};
         playGame.myBoard = cut.board;
+
     }
 
     @Test

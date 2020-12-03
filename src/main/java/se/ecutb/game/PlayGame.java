@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class PlayGame extends Game{
     private int play_number;
-    private final FourIRow fourIRow;
+    public final FourIRow fourIRow;
     private boolean winner= false;
     String marker;
     String[][] myBoard ;
@@ -18,6 +18,7 @@ public class PlayGame extends Game{
         this.play_number =1;
         fourIRow = new FourIRow();
         myBoard = fourIRow.board;
+
 
     }
 
@@ -56,14 +57,16 @@ public class PlayGame extends Game{
         winner = getWinner();
 
         if( winner && count < play_number){
+            System.out.println(winnerGame() + " winner");
             myBoard = fourIRow.newBoardGame();
+            list.add("winner : " + winnerGame());
+            count++;
         }
         if(gameOver() ){
             winner = false;
             start();
-            count++;
         }
-        if(winner){
+        if(winner && count >= play_number){
             System.out.println(winnerGame() + " winner");
             count++;
             winner = false;
@@ -72,40 +75,21 @@ public class PlayGame extends Game{
         }
     }
 
-    public String winnerGame(){
-        return marker;
-    }
 
-    private boolean getWinner() {
-        return diagonalWinner()||
-                verticalWinner()||
-                horizontalWinner();
-    }
-
-    public boolean verticalWinner(){
-        for (int i = 0; i < 7; i++) {
-            if(getStringVert(i)){
-                winner = true;
-                return true;
-            }
+    private void printColNo() {
+        System.out.println("set in a column ");
+        for (int i = 1; i < 8; i++) {
+            System.out.print(i + "  ");
         }
-        return false;
-
     }
-    public boolean horizontalWinner(){
-        for (int i = 5; i >=0; i--) {
-            if(getStringHoriz(i)){
-                winner = true;
-                System.out.println("horiz " + winner);
-                return true;
-            }
+
+    public void setInCol(String player, int colP) {
+        try {
+            fourIRow.setIColumn(colP -1, player);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return false;
     }
-    public boolean diagonalWinner(){
-        return getStringDiag() || getStringDiag1() || getStringDiag2();
-    }
-
     public boolean getStringVert(int col){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < 6; i++) {
@@ -144,6 +128,38 @@ public class PlayGame extends Game{
         }
         return compare(stringBuilder);
     }
+    public boolean verticalWinner(){
+        for (int i = 0; i < 7; i++) {
+            if(getStringVert(i)){
+                winner = true;
+                return true;
+            }
+        }
+        return false;
+
+    }
+    public boolean horizontalWinner(){
+        for (int i = 5; i >=0; i--) {
+            if(getStringHoriz(i)){
+                winner = true;
+                System.out.println("horiz " + winner);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean diagonalWinner(){
+        return getStringDiag() || getStringDiag1() || getStringDiag2();
+    }
+    public String winnerGame(){
+        return marker;
+    }
+
+    public boolean getWinner() {
+        return diagonalWinner()||
+                verticalWinner()||
+                horizontalWinner();
+    }
 
     public boolean compare(StringBuilder st) {
 
@@ -156,30 +172,15 @@ public class PlayGame extends Game{
         }
         return false;
     }
-
     public boolean gameOver(){
-         for (int i = 5; i >= 0; i--) {
-             for (int j = 6; j >= 0; j--) {
-                 if(myBoard[i][j].equals("")){
-                     return false;
-                 }
-             }
-         }return true;
-     }
-
-    private void printColNo() {
-        System.out.println("set in a column ");
-        for (int i = 1; i < 8; i++) {
-            System.out.print(i + "  ");
-        }
+        for (int i = 5; i >= 0; i--) {
+            for (int j = 6; j >= 0; j--) {
+                if(myBoard[i][j].equals("")){
+                    return false;
+                }
+            }
+        }return true;
     }
 
-    public void setInCol(String player, int colP) {
-        try {
-            fourIRow.setIColumn(colP -1, player);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }

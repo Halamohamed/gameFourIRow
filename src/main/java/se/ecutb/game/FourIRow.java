@@ -47,28 +47,28 @@ public class FourIRow implements Serializable {
 
     public void boardGame(){
 
-        System.out.println("---------------------------");
+        System.out.println("--------------------------------------------");
         for (int i =0; i < 6; i++) {
             for (int j = 0; j < 7 ; j++) {
-                System.out.print(board[i][j] + " | ");
+                System.out.print(board[i][j] + "   |  ");
             }
             System.out.println();
         }
-        System.out.println("---------------------------");
+        System.out.println("--------------------------------------------");
 
 
     }
     public String[][] newBoardGame(){
 
-        System.out.println("---------------------------");
+        System.out.println("--------------------------------------------");
         for (int i =0; i < 6; i++) {
             for (int j = 0; j < 7 ; j++) {
                 board[i][j] = "";
-                System.out.print(board[i][j] + " | ");
+                System.out.print(board[i][j] + "   |  ");
             }
             System.out.println();
         }
-        System.out.println("---------------------------");
+        System.out.println("--------------------------------------------");
         return board;
 
     }

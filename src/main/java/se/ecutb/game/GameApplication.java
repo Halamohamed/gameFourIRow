@@ -3,14 +3,8 @@ package se.ecutb.game;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
-
-import static se.ecutb.game.SaveFile.FILE;
-import static se.ecutb.game.SaveFile.readText;
 
 
 @SpringBootApplication
@@ -23,22 +17,15 @@ public class GameApplication {
 
         List<String> list = new ArrayList<>();
 
-        System.out.println("Välcommen till spelet Fyra I Rad ");
+        System.out.println("Välkommen till spelet Fyra I Rad: " +
+                "\n Du får placera dina marker vertikalt, horisontellt eller diagonalt!");
 
         PlayGame game = new PlayGame();
         game.start();
 
         list.add(game.winnerGame() + " " + game.winner + game);
 
-            System.out.println("spelet vinnare ");
-            /*for (int i = 0; i < list.size(); i++) {
-                System.out.println(i + " " +readText(file));
-            }*/
-        //SaveFile.readText(FILE).forEach(s -> System.out.println(Arrays.asList(s) ));
-        for (String s: SaveFile.stringList
-             ) {
-            System.out.println(s);
-        }
+            System.out.println("spelet vinnare " + list);
 
 
 

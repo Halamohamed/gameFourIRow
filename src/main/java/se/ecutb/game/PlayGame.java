@@ -2,14 +2,13 @@ package se.ecutb.game;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 import static se.ecutb.game.SaveFile.FILE;
+
 public class PlayGame extends Game implements Serializable {
     private int play_number;
     public final FourIRow fourIRow;
